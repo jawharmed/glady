@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -43,4 +44,16 @@ public class GladyUser implements Serializable {
     @OneToMany(mappedBy = "gladyUser")
     private List<Wallet> wallets;
 
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        GladyUser gladyUser = (GladyUser) object;
+        return Objects.equals(username, gladyUser.username) && Objects.equals(company, gladyUser.company);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, company);
+    }
 }

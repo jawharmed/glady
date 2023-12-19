@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -36,4 +37,17 @@ public class Wallet implements Serializable {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private GladyUser gladyUser;
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Wallet wallet = (Wallet) object;
+        return walletType == wallet.walletType && Objects.equals(gladyUser, wallet.gladyUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(walletType, gladyUser);
+    }
 }
