@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "COMPANY")
+@SQLDelete(sql = "UPDATE COMPANY SET DELETED_ON = true WHERE id=?")
 public class Company implements Serializable {
 
     @Id
@@ -36,6 +38,6 @@ public class Company implements Serializable {
     @Column(name = "GIFT_BALANCE", precision = 2)
     private double giftBalance;
 
-    @Column(name = "deletedOn")
+    @Column(name = "DELETED_ON")
     private ZonedDateTime deletedOn;
 }
