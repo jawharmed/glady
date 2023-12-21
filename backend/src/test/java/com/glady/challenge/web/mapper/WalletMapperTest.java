@@ -1,11 +1,10 @@
-package challenge.web.mapper;
+package com.glady.challenge.web.mapper;
 
-import challenge.helpers.DtoObjectHelper;
-import challenge.helpers.ObjectHelper;
+import com.glady.challenge.helpers.DtoObjectHelper;
+import com.glady.challenge.helpers.ObjectHelper;
 import com.glady.challenge.model.user.GladyUser;
 import com.glady.challenge.model.wallet.Wallet;
 import com.glady.challenge.web.dto.wallet.WalletDTO;
-import com.glady.challenge.web.mapper.WalletMapper;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -52,23 +52,34 @@ public class CompanyService {
     }
 
     /**
+     * Get Company Information
+     * @param id Company ID
+     * @return Company DTO Information
+     * @throws EntityNotFoundException If Company not found
+     */
+    public CompanyDTO getCompanyDtoById(Long id) throws EntityNotFoundException {
+        return companyMapper.toCompanyDTO(this.getCompanyById(id, false));
+    }
+
+    /**
+     * Get Company Information
+     * @param id Company ID
+     * @param deletedIncluded True if includes also deleted companies
+     * @return Company DTO Information
+     * @throws EntityNotFoundException If Company not found
+     */
+    public CompanyDTO getCompanyDtoById(Long id, boolean deletedIncluded) throws EntityNotFoundException {
+        return companyMapper.toCompanyDTO(this.getCompanyById(id, deletedIncluded));
+    }
+
+
+    /**
      * Get all companies
      * @param deletedIncluded True if includes also deleted companies
      * @return List of Companies
      */
     public List<Company> getAllCompanies(boolean deletedIncluded){
         return companyRepository.findAll(companyRepository.isDeleted(deletedIncluded));
-    }
-
-
-    /**
-     * Get Company Information
-     * @param id Company ID
-     * @return Company DTO Information
-     * @throws EntityNotFoundException If Company not found
-     */
-    public CompanyDTO getCompanyDtoById(Long id, boolean deletedIncluded) throws EntityNotFoundException {
-        return companyMapper.toCompanyDTO(this.getCompanyById(id, deletedIncluded));
     }
 
     /**
@@ -109,8 +120,9 @@ public class CompanyService {
      * @throws EntityNotFoundException  If the company with the specified ID is not found.
      */
     public void softDeletionCompany(Long idCompany) throws EntityNotFoundException {
-        Company existingCompany = companyRepository.findById(idCompany)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(ErrorMessage.ENTITY_ID_NOT_FOUND, ENTITY_NAME, idCompany)));
+//        Company existingCompany = companyRepository.findById(idCompany)
+//                .orElseThrow(() -> new EntityNotFoundException(String.format(ErrorMessage.ENTITY_ID_NOT_FOUND, ENTITY_NAME, idCompany)));
+        Company existingCompany = this.getCompanyById(idCompany, false);
 
         existingCompany.setDeletedOn(ZonedDateTime.now());
         companyRepository.save(existingCompany);
@@ -123,7 +135,7 @@ public class CompanyService {
      * @param newCompanyDTO  New Company information
      * @param existingCompany  Existing Company information
      */
-    private void checkIfCompanyExist(@NonNull CompanyDTO newCompanyDTO, @Nullable Company existingCompany) {
+    public void checkIfCompanyExist(@NonNull CompanyDTO newCompanyDTO, @Nullable Company existingCompany) {
         Specification<Company> spec = companyRepository.isDeleted(true)
                 .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(criteriaBuilder.lower(root.get("companyName")), newCompanyDTO.getCompanyName().toLowerCase()));
 

@@ -51,7 +51,7 @@ public class GladyUserService {
      */
     public GladyUserDTO create(GladyUserDTO gladyUserDTO) throws EntityAlreadyExistException {
         checkIfGladyUserExist(gladyUserDTO);
-        Company company = companyService.getById(gladyUserDTO.getCompanyId());
+        Company company = companyService.getCompanyById(gladyUserDTO.getCompanyId(), false);
         GladyUser gladyUser = gladyUserRepository.save(gladyUserMapper.toGladyUser(gladyUserDTO, company));
         return gladyUserMapper.toGladyUserDTO(gladyUser);
     }
@@ -71,7 +71,7 @@ public class GladyUserService {
             checkIfGladyUserExist(gladyUserDTO);
         }
 
-        Company company = companyService.getById(gladyUserDTO.getId());
+        Company company = companyService.getCompanyById(gladyUserDTO.getId(), false);
         GladyUser gladyUser = gladyUserRepository.save(gladyUserMapper.toGladyUser(gladyUserDTO, company));
         return gladyUserMapper.toGladyUserDTO(gladyUser);
     }
@@ -82,8 +82,10 @@ public class GladyUserService {
      * @throws EntityNotFoundException If the Glady User with the specified ID is not found.
      */
     public void delete(Long gladyUserId) throws EntityNotFoundException {
-        gladyUserRepository.findById(gladyUserId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(ErrorMessage.ENTITY_ID_NOT_FOUND, ENTITY_NAME, gladyUserId)));
+        Optional<GladyUser> gladyUser = gladyUserRepository.findById(gladyUserId);
+        if(!gladyUser.isPresent()){
+            throw new EntityNotFoundException(String.format(ErrorMessage.ENTITY_ID_NOT_FOUND, ENTITY_NAME, gladyUserId));
+        }
 
         gladyUserRepository.deleteById(gladyUserId);
     }

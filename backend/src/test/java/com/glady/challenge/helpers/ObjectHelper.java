@@ -1,4 +1,4 @@
-package challenge.helpers;
+package com.glady.challenge.helpers;
 
 import com.glady.challenge.model.company.Company;
 import com.glady.challenge.model.deposit.Deposit;

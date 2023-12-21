@@ -37,7 +37,7 @@ public class DepositService {
 
     @Transactional
     public void makeDeposit(DepositDTO depositDTO) throws GladyException {
-        Company company = this.companyService.getById(depositDTO.getCompanyId());
+        Company company = this.companyService.getCompanyById(depositDTO.getCompanyId(), false);
 
         // Check if company's balance allows this deposit
         if(!this.checkCompanyBalance(company, depositDTO.getAmount(), depositDTO.getDepositType())){
