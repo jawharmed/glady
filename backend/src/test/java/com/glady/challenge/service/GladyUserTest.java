@@ -10,7 +10,6 @@ import com.glady.challenge.repository.GladyUserRepository;
 import com.glady.challenge.service.company.CompanyService;
 import com.glady.challenge.service.gladyuser.GladyUserService;
 import com.glady.challenge.web.dto.user.GladyUserDTO;
-import com.glady.challenge.web.mapper.GladyUserMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;

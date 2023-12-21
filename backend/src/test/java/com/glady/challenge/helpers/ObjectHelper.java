@@ -15,8 +15,8 @@ public class ObjectHelper {
         return Company.builder()
                 .id(1L)
                 .companyName("Apple")
-                .mealBalance(100.00)
-                .giftBalance(50.00)
+                .mealBalance(1000.00)
+                .giftBalance(500.00)
                 .build();
     }
 

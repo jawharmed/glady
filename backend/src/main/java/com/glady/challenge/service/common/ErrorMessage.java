@@ -2,7 +2,7 @@ package com.glady.challenge.service.common;
 
 public final class ErrorMessage {
 
-    private ErrorMessage() {
+    public ErrorMessage() {
         throw new IllegalStateException("Utility class.");
     }
 

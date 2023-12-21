@@ -5,7 +5,6 @@ import com.glady.challenge.model.company.Company;
 import com.glady.challenge.model.deposit.Deposit;
 import com.glady.challenge.model.enums.VoucherTypeEnum;
 import com.glady.challenge.model.user.GladyUser;
-import com.glady.challenge.model.wallet.Voucher;
 import com.glady.challenge.model.wallet.Wallet;
 import com.glady.challenge.repository.DepositRepository;
 import com.glady.challenge.service.common.ErrorMessage;
@@ -14,6 +13,7 @@ import com.glady.challenge.service.gladyuser.GladyUserService;
 import com.glady.challenge.service.wallet.VoucherService;
 import com.glady.challenge.service.wallet.WalletService;
 import com.glady.challenge.web.dto.deposit.DepositDTO;
+import com.glady.challenge.web.dto.wallet.VoucherDTO;
 import com.glady.challenge.web.dto.wallet.WalletDTO;
 import com.glady.challenge.web.mapper.DepositMapper;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class DepositService {
     private final VoucherService voucherService;
 
     @Transactional
-    public void makeDeposit(DepositDTO depositDTO) throws GladyException {
+    public DepositDTO makeDeposit(DepositDTO depositDTO) throws GladyException {
         Company company = this.companyService.getCompanyById(depositDTO.getCompanyId(), false);
 
         // Check if company's balance allows this deposit
@@ -54,19 +54,22 @@ public class DepositService {
 
         // Generate a voucher
         ZonedDateTime createdOn = ZonedDateTime.now();
-        this.voucherService.create(
-                            Voucher.builder()
-                                .amount(depositDTO.getAmount())
-                                .createdOn(createdOn)
-                                .expiresOn(this.getExpireDate(createdOn,VoucherTypeEnum.valueOfType(depositDTO.getDepositType())))
-                                .receivedFrom(company.getCompanyName())
-                                .code(this.generateVoucherCode(VoucherTypeEnum.valueOfType(depositDTO.getDepositType())))
-                                .wallet(wallet)
-                                .build());
+        VoucherDTO voucherDTO = VoucherDTO.builder()
+                .amount(depositDTO.getAmount())
+                .createdOn(createdOn)
+                .expiresOn(this.getExpireDate(createdOn,VoucherTypeEnum.valueOfType(depositDTO.getDepositType())))
+                .receivedFrom(company.getCompanyName())
+                .code(this.generateVoucherCode(VoucherTypeEnum.valueOfType(depositDTO.getDepositType())))
+                .walletId(wallet.getId())
+                .build();
+
+        this.voucherService.create(voucherDTO, wallet);
 
         // Create a deposit
         Deposit deposit = DepositMapper.INSTANCE.toDeposit(depositDTO, gladyUser);
         this.depositRepository.save(deposit);
+
+        return DepositMapper.INSTANCE.toDepositDTO(deposit);
     }
 
     /**

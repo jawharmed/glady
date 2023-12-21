@@ -15,8 +15,8 @@ public class DtoObjectHelper {
         return CompanyDTO.builder()
                 .id(1L)
                 .companyName("Apple")
-                .mealBalance(100.00)
-                .giftBalance(50.00)
+                .mealBalance(1000.00)
+                .giftBalance(500.00)
                 .build();
     }
 
@@ -47,8 +47,8 @@ public class DtoObjectHelper {
     public static VoucherDTO getVoucherGiftDTO(){
         return VoucherDTO.builder()
                 .id(1L)
-                .amount(getDepositGiftDTO().getAmount())
-                .code("MEAL-CODE-1")
+                .amount(100)
+                .code("G-CODE-1")
                 .createdOn(ZonedDateTime.now())
                 .expiresOn(ZonedDateTime.now().plusDays(365))
                 .walletId(getWalletGiftDTO().getId())
@@ -70,7 +70,7 @@ public class DtoObjectHelper {
         return DepositDTO.builder()
                 .id(1L)
                 .depositType(VoucherTypeEnum.GIFT.getType())
-                .amount(500)
+                .amount(50)
                 .companyId(1L)
                 .gladyUserId(1L)
                 .build();

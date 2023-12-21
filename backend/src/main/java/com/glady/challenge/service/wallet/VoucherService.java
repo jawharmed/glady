@@ -2,8 +2,11 @@ package com.glady.challenge.service.wallet;
 
 import com.glady.challenge.exception.EntityAlreadyExistException;
 import com.glady.challenge.model.wallet.Voucher;
+import com.glady.challenge.model.wallet.Wallet;
 import com.glady.challenge.repository.VoucherRepository;
 import com.glady.challenge.service.common.ErrorMessage;
+import com.glady.challenge.web.dto.wallet.VoucherDTO;
+import com.glady.challenge.web.mapper.VoucherMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,35 +16,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VoucherService {
 
-//    private static final String ENTITY_NAME = "Voucher";
-//    private static final VoucherMapper voucherMapper = VoucherMapper.INSTANCE;
-
     private final VoucherRepository voucherRepository;
-//    private final WalletService walletService;
-
-//    /**
-//     * Create new Voucher
-//     *
-//     * @param voucherDTO voucher information
-//     * @return new created voucher information
-//     * @throws EntityAlreadyExistException If voucher already exist
-//     */
-////    public VoucherDTO create(VoucherDTO voucherDTO) throws EntityAlreadyExistException {
-////        checkIfVoucherExist(voucherDTO);
-////        Wallet wallet = this.walletService.getById(voucherDTO.getWalletId());
-////        Voucher voucher = voucherRepository.save(voucherMapper.toVoucher(voucherDTO, wallet));
-////        return voucherMapper.toVoucherDTO(voucher);
-////    }
 
     /**
      * Create new Voucher
      *
-     * @param voucher voucher information
+     * @param voucherDTO voucher information
+     * @param wallet wallet information
      * @return new created voucher information
      * @throws EntityAlreadyExistException If voucher already exist
      */
-    public Voucher create(Voucher voucher) {
-        checkIfVoucherExist(voucher.getCode());
+    public Voucher create(VoucherDTO voucherDTO, Wallet wallet) {
+        checkIfVoucherExist(voucherDTO.getCode());
+        Voucher voucher = VoucherMapper.INSTANCE.toVoucher(voucherDTO, wallet);
         return voucherRepository.save(voucher);
     }
 

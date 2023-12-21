@@ -45,30 +45,11 @@ public class WalletService {
     }
 
     /**
-     * Get user wallet information if exist
-     *
-     * @param gladyUserId Glady User ID
-     * @param voucherType Voucher Type
-     * @return Wallet DTO information
-     */
-    public WalletDTO getbyGladyUserIdAndVoucherType(Long gladyUserId, VoucherTypeEnum voucherType){
-        Wallet wallet = this.walletRepository.findByGladyUserIdAndWalletType(gladyUserId, voucherType).orElse(null);
-        return wallet != null ? walletMapper.toWalletDTO(wallet) : null;
-    }
-
-    /**
-     * Create a new Wallet
+     * Get an existing wallet or Create a new one if not
      * @param walletDTO Wallet information
      * @return Wallet information
      * @throws EntityAlreadyExistException If Wallet already exists
      */
-    public WalletDTO create(WalletDTO walletDTO) throws EntityAlreadyExistException {
-        checkIfWalletExist(walletDTO);
-        GladyUser gladyUser = gladyUserService.getById(walletDTO.getGladyUserId());
-        Wallet wallet = walletRepository.save(walletMapper.toWallet(walletDTO, gladyUser));
-        return walletMapper.toWalletDTO(wallet);
-    }
-
     public Wallet getOrCreate(WalletDTO walletDTO){
         Optional<Wallet> existingWallet = this.walletRepository.findByGladyUserIdAndWalletType(
                 walletDTO.getGladyUserId(),
@@ -83,14 +64,6 @@ public class WalletService {
         }
 
         return wallet;
-    }
-
-
-    private void checkIfWalletExist(WalletDTO walletDTO) throws EntityAlreadyExistException {
-        Optional<Wallet> existingWallet = walletRepository.findById(walletDTO.getId());
-        if(existingWallet.isPresent()){
-            throw new EntityAlreadyExistException(String.format(ErrorMessage.ENTITY_ID_ALREADY_EXIST, ENTITY_NAME, walletDTO.getId()));
-        }
     }
 
 
