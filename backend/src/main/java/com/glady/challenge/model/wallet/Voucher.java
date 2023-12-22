@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +33,6 @@ public class Voucher {
     private double amount;
 
     @Column(name = "CREATED_ON")
-    @CreatedDate
     private ZonedDateTime createdOn;
 
     @Column(name = "EXPIRES_ON")

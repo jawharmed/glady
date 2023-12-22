@@ -9,11 +9,14 @@ import com.glady.challenge.web.dto.wallet.VoucherDTO;
 import com.glady.challenge.web.mapper.VoucherMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -33,6 +36,15 @@ public class VoucherService {
     }
 
     /**
+     * Get all voucher by wallet
+     * @param walletId Wallet ID
+     * @return List of vouchers
+     */
+    public List<Voucher> getVouchersByWallet(Long walletId){
+        return voucherRepository.findAllByWalletId(walletId);
+    }
+
+    /**
      * Check if voucher code exist
      *
      * @param code voucher code value
@@ -44,7 +56,6 @@ public class VoucherService {
             throw new EntityAlreadyExistException(String.format(ErrorMessage.VOUCHER_CODE_EXIST, code));
         }
     }
-
 
 
 }

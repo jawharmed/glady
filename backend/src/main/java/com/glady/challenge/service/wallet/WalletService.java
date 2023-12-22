@@ -12,11 +12,13 @@ import com.glady.challenge.web.dto.wallet.WalletDTO;
 import com.glady.challenge.web.mapper.WalletMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class WalletService {
 
     private static final String ENTITY_NAME = "Wallet";
@@ -50,6 +52,7 @@ public class WalletService {
      * @return Wallet information
      * @throws EntityAlreadyExistException If Wallet already exists
      */
+    @Transactional
     public Wallet getOrCreate(WalletDTO walletDTO){
         Optional<Wallet> existingWallet = this.walletRepository.findByGladyUserIdAndWalletType(
                 walletDTO.getGladyUserId(),

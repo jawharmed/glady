@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class CompanyService {
 
     private static final String ENTITY_NAME = "Company";
@@ -120,9 +122,7 @@ public class CompanyService {
      * @throws EntityNotFoundException  If the company with the specified ID is not found.
      */
     public void softDeletionCompany(Long idCompany) throws EntityNotFoundException {
-//        Company existingCompany = companyRepository.findById(idCompany)
-//                .orElseThrow(() -> new EntityNotFoundException(String.format(ErrorMessage.ENTITY_ID_NOT_FOUND, ENTITY_NAME, idCompany)));
-        Company existingCompany = this.getCompanyById(idCompany, false);
+       Company existingCompany = this.getCompanyById(idCompany, false);
 
         existingCompany.setDeletedOn(ZonedDateTime.now());
         companyRepository.save(existingCompany);

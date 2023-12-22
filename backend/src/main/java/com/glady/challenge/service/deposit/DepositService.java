@@ -15,6 +15,7 @@ import com.glady.challenge.service.wallet.WalletService;
 import com.glady.challenge.web.dto.deposit.DepositDTO;
 import com.glady.challenge.web.dto.wallet.VoucherDTO;
 import com.glady.challenge.web.dto.wallet.WalletDTO;
+import com.glady.challenge.web.mapper.CompanyMapper;
 import com.glady.challenge.web.mapper.DepositMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.time.temporal.TemporalAdjusters;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class DepositService {
 
     private final DepositRepository depositRepository;
@@ -35,13 +37,27 @@ public class DepositService {
     private final WalletService walletService;
     private final VoucherService voucherService;
 
-    @Transactional
+
+    /**
+     * Make deposit
+     * @param depositDTO deposit information
+     * @return deposit dto
+     * @throws GladyException if an error occurred
+     */
     public DepositDTO makeDeposit(DepositDTO depositDTO) throws GladyException {
         Company company = this.companyService.getCompanyById(depositDTO.getCompanyId(), false);
 
         // Check if company's balance allows this deposit
         if(!this.checkCompanyBalance(company, depositDTO.getAmount(), depositDTO.getDepositType())){
             throw new GladyException(String.format(ErrorMessage.COMPANY_BALANCE_INSUFFICIENT, company.getCompanyName()));
+        }else{
+            // Re-calculate company's balance
+            if(depositDTO.getDepositType().equals(VoucherTypeEnum.GIFT.getType())){
+                company.setGiftBalance( company.getGiftBalance() - depositDTO.getAmount() );
+            }else{
+                company.setMealBalance(company.getMealBalance() - depositDTO.getAmount() );
+            }
+            this.companyService.update(CompanyMapper.INSTANCE.toCompanyDTO(company));
         }
 
         // Check if Glady user has a wallet, otherwise create one for him!
@@ -63,6 +79,7 @@ public class DepositService {
                 .walletId(wallet.getId())
                 .build();
 
+        // Create voucher
         this.voucherService.create(voucherDTO, wallet);
 
         // Create a deposit
@@ -109,6 +126,12 @@ public class DepositService {
         return expiresOn;
     }
 
+    /**
+     * Generate voucher code
+     *
+     * @param voucherType Gift or Meal
+     * @return voucher code
+     */
     private String generateVoucherCode(VoucherTypeEnum voucherType) {
         String code;
         if(VoucherTypeEnum.GIFT.equals(voucherType)){
