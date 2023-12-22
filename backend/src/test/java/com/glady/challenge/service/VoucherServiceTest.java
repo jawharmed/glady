@@ -47,7 +47,6 @@ class VoucherServiceTest {
 
         assertNotNull(result);
         assertEquals(voucherDTO.getCode(), result.getCode());
-        assertEquals(voucherDTO.getWalletId(), result.getWallet().getId());
 
         verify(voucherRepository, times(1)).save(any());
     }

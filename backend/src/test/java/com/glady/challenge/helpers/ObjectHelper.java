@@ -38,7 +38,7 @@ public class ObjectHelper {
 
     public static Wallet getWalletGift(){
         return Wallet.builder()
-                .id(1L)
+                .id(2L)
                 .walletType(VoucherTypeEnum.GIFT)
                 .gladyUser(getGladyUser())
                 .build();
@@ -47,11 +47,23 @@ public class ObjectHelper {
     public static Voucher getVoucherGift(){
         return Voucher.builder()
                 .id(1L)
-                .amount(getDepositGift().getAmount())
-                .code("MEAL-CODE-1")
+                .amount(125)
+                .code("G-CODE-1")
                 .createdOn(ZonedDateTime.now())
                 .expiresOn(ZonedDateTime.now().plusDays(365))
                 .wallet(getWalletGift())
+                .receivedFrom(getCompany().getCompanyName())
+                .build();
+    }
+
+    public static Voucher getVoucherMeal(){
+        return Voucher.builder()
+                .id(10L)
+                .amount(200)
+                .code("M-CODE-1")
+                .createdOn(ZonedDateTime.now())
+                .expiresOn(ZonedDateTime.now().plusDays(500))
+                .wallet(getWalletMeal())
                 .receivedFrom(getCompany().getCompanyName())
                 .build();
     }

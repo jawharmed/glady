@@ -44,7 +44,7 @@ class WalletServiceTest {
 
     @Test
     void testGetById_GivenExistingWalletId_ShouldReturnWallet(){
-        Long walletId = 1L;
+        Long walletId = 2L;
         Wallet expected = ObjectHelper.getWalletGift();
         when(walletRepository.findById(walletId)).thenReturn(Optional.of(expected));
 
@@ -66,7 +66,7 @@ class WalletServiceTest {
 
     @Test
     void testGetDtoById_GivenExistingWalletId_ShouldReturnWalletDto(){
-        Long walletId = 1L;
+        Long walletId = 2L;
         Wallet expected = ObjectHelper.getWalletGift();
         when(walletRepository.findById(walletId)).thenReturn(Optional.of(expected));
 

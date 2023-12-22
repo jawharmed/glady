@@ -1,9 +1,9 @@
 package com.glady.challenge.service;
 
-import com.glady.challenge.helpers.DtoObjectHelper;
-import com.glady.challenge.helpers.ObjectHelper;
 import com.glady.challenge.exception.EntityAlreadyExistException;
 import com.glady.challenge.exception.EntityNotFoundException;
+import com.glady.challenge.helpers.DtoObjectHelper;
+import com.glady.challenge.helpers.ObjectHelper;
 import com.glady.challenge.model.company.Company;
 import com.glady.challenge.repository.CompanyRepository;
 import com.glady.challenge.service.common.ErrorMessage;
@@ -15,7 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -178,6 +180,48 @@ class CompanyServiceTest {
 
         verify(companyRepository, times(1)).findById(companyId, false);
         verify(companyRepository, never()).save(any());
+    }
+
+
+    @Test
+    void testCheckIfCompanyExist_NewCompanyWithExistingName_ThrowsEntityAlreadyExistException() {
+        CompanyDTO newCompanyDTO = DtoObjectHelper.getCompanyDTO();
+        Company existingCompany = ObjectHelper.getCompany();
+
+        when(companyRepository.isDeleted(anyBoolean())).thenReturn((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+        when(companyRepository.findOne(any(Specification.class))).thenReturn(Optional.of(existingCompany));
+
+        assertThrows(EntityAlreadyExistException.class, () -> companyService.checkIfCompanyExist(newCompanyDTO, existingCompany));
+
+        verify(companyRepository, times(1)).findOne(any(Specification.class));
+    }
+
+    @Test
+    void testCheckIfCompanyExist_NewCompanyWithDeletedName_ThrowsEntityAlreadyExistExceptionWithDeletedMessage() {
+        CompanyDTO newCompanyDTO = DtoObjectHelper.getCompanyDTO();
+        Company existingCompany = ObjectHelper.getCompany();
+        existingCompany.setDeletedOn(ZonedDateTime.now());
+
+        when(companyRepository.isDeleted(true)).thenReturn((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+        when(companyRepository.findOne(any(Specification.class))).thenReturn(Optional.of(existingCompany));
+
+        assertThrows(EntityAlreadyExistException.class, () -> companyService.checkIfCompanyExist(newCompanyDTO, existingCompany));
+
+        verify(companyRepository, times(1)).findOne(any(Specification.class));
+    }
+
+    @Test
+    void testCheckIfCompanyExist_NewCompanyWithDifferentName_NoExceptionThrown() {
+        CompanyDTO newCompanyDTO = DtoObjectHelper.getCompanyDTO();
+        newCompanyDTO.setCompanyName("NewCompany");
+        Company existingCompany = ObjectHelper.getCompany();
+
+        when(companyRepository.isDeleted(true)).thenReturn((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+        when(companyRepository.findOne(any(Specification.class))).thenReturn(Optional.empty());
+
+        companyService.checkIfCompanyExist(newCompanyDTO, existingCompany);
+
+        verify(companyRepository, times(1)).findOne(any(Specification.class));
     }
 
 }
