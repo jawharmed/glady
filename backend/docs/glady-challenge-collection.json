@@ -1,0 +1,1506 @@
+{
+	"info": {
+		"_postman_id": "745e50e2-b37a-458c-82b1-298c8614bda5",
+		"name": "GladyChallenge",
+		"description": "Glady Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3618384"
+	},
+	"item": [
+		{
+			"name": "company",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Get company by id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/company/:id?includes-deleted=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company",
+										":id"
+									],
+									"query": [
+										{
+											"key": "includes-deleted",
+											"value": "false",
+											"description": "includes-deleted"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) id"
+										}
+									]
+								},
+								"description": "This method retrieves one company by id"
+							},
+							"response": [
+								{
+									"name": "The company exists in the database",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/company/:id?includes-deleted=false",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"company",
+												":id"
+											],
+											"query": [
+												{
+													"key": "includes-deleted",
+													"value": "false",
+													"description": "includes-deleted"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"companyName\": \"<string>\",\n  \"deletedOn\": \"<dateTime>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}"
+								},
+								{
+									"name": "The company doesn't exists in database",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/company/:id?includes-deleted=false",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"company",
+												":id"
+											],
+											"query": [
+												{
+													"key": "includes-deleted",
+													"value": "false",
+													"description": "includes-deleted"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Soft delete company",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/company/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) id"
+										}
+									]
+								},
+								"description": "This method is used to soft delete an existing company."
+							},
+							"response": [
+								{
+									"name": "The company is deleted",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/company/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"company",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "The company doesn't exists in database",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/company/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"company",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get all companies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/company?includes-deleted=false",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"company"
+							],
+							"query": [
+								{
+									"key": "includes-deleted",
+									"value": "false",
+									"description": "includes-deleted"
+								}
+							]
+						},
+						"description": "This method retrieves the list of all companies."
+					},
+					"response": [
+						{
+							"name": "List of companies",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/company?includes-deleted=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									],
+									"query": [
+										{
+											"key": "includes-deleted",
+											"value": "false",
+											"description": "includes-deleted"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"companyName\": \"<string>\",\n    \"deletedOn\": \"<dateTime>\",\n    \"giftBalance\": \"<double>\",\n    \"id\": \"<long>\",\n    \"mealBalance\": \"<double>\"\n  },\n  {\n    \"companyName\": \"<string>\",\n    \"deletedOn\": \"<dateTime>\",\n    \"giftBalance\": \"<double>\",\n    \"id\": \"<long>\",\n    \"mealBalance\": \"<double>\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/company",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"company"
+							]
+						},
+						"description": "This method is used to create a new company."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}"
+						},
+						{
+							"name": "The company is created in the database",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}"
+						},
+						{
+							"name": "Error occurred on creation of company",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "The company already exists in database",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update company",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/company",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"company"
+							]
+						},
+						"description": "This method is used to update an existing company."
+					},
+					"response": [
+						{
+							"name": "The company is updated in the database",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}"
+						},
+						{
+							"name": "Error occurred on update of company",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "The company doesn't exists in database",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "The new company name already exists in database",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyName\": \"<string>\",\n  \"giftBalance\": \"<double>\",\n  \"id\": \"<long>\",\n  \"mealBalance\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"company"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "deposit",
+			"item": [
+				{
+					"name": "Make deposit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"<double>\",\n  \"companyId\": \"<long>\",\n  \"depositType\": \"<string>\",\n  \"gladyUserId\": \"<long>\",\n  \"id\": \"<long>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deposit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deposit"
+							]
+						},
+						"description": "This method is used distribute vouchers to users."
+					},
+					"response": [
+						{
+							"name": "The deposit is created and vouchers are distributed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"<double>\",\n  \"companyId\": \"<long>\",\n  \"depositType\": \"<string>\",\n  \"gladyUserId\": \"<long>\",\n  \"id\": \"<long>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"deposit"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"amount\": \"<double>\",\n  \"companyId\": \"<long>\",\n  \"depositType\": \"<string>\",\n  \"gladyUserId\": \"<long>\",\n  \"id\": \"<long>\"\n}"
+						},
+						{
+							"name": "The company balance is insufficient.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"<double>\",\n  \"companyId\": \"<long>\",\n  \"depositType\": \"<string>\",\n  \"gladyUserId\": \"<long>\",\n  \"id\": \"<long>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"deposit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "glady-user",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "info",
+							"item": [
+								{
+									"name": "Get User Info",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/glady-user/:id/info",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"glady-user",
+												":id",
+												"info"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<long>",
+													"description": "(Required) id"
+												}
+											]
+										},
+										"description": "This method retrieve information about user's balances."
+									},
+									"response": [
+										{
+											"name": "The information is retrieved.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/glady-user/:id/info",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"glady-user",
+														":id",
+														"info"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}"
+										},
+										{
+											"name": "The user doesn't exists in database.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/glady-user/:id/info",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"glady-user",
+														":id",
+														"info"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Get User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/glady-user/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) id"
+										}
+									]
+								},
+								"description": "This method retrieve user's information"
+							},
+							"response": [
+								{
+									"name": "The information is retrieved.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/glady-user/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"glady-user",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}"
+								},
+								{
+									"name": "The user doesn't exists in database.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/glady-user/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"glady-user",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/glady-user/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) id"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/glady-user/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"glady-user",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/glady-user?page=0&size=10&sortOrder=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"glady-user"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "page"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "size"
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc",
+									"description": "sortOrder"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/glady-user?page=0&size=10&sortOrder=asc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"description": "page"
+										},
+										{
+											"key": "size",
+											"value": "10",
+											"description": "size"
+										},
+										{
+											"key": "sortOrder",
+											"value": "asc",
+											"description": "sortOrder"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"content\": [\n    {\n      \"companyId\": \"<long>\",\n      \"id\": \"<long>\",\n      \"username\": \"<string>\"\n    },\n    {\n      \"companyId\": \"<long>\",\n      \"id\": \"<long>\",\n      \"username\": \"<string>\"\n    }\n  ],\n  \"empty\": \"<boolean>\",\n  \"first\": \"<boolean>\",\n  \"last\": \"<boolean>\",\n  \"number\": \"<integer>\",\n  \"numberOfElements\": \"<integer>\",\n  \"pageable\": {\n    \"offset\": \"<long>\",\n    \"pageNumber\": \"<integer>\",\n    \"pageSize\": \"<integer>\",\n    \"paged\": \"<boolean>\",\n    \"sort\": {\n      \"empty\": \"<boolean>\",\n      \"sorted\": \"<boolean>\",\n      \"unsorted\": \"<boolean>\"\n    },\n    \"unpaged\": \"<boolean>\"\n  },\n  \"size\": \"<integer>\",\n  \"sort\": {\n    \"empty\": \"<boolean>\",\n    \"sorted\": \"<boolean>\",\n    \"unsorted\": \"<boolean>\"\n  },\n  \"totalElements\": \"<long>\",\n  \"totalPages\": \"<integer>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/glady-user",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"glady-user"
+							]
+						},
+						"description": "This method is used to create new glady user."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/glady-user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}"
+						},
+						{
+							"name": "The user is created.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/glady-user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}"
+						},
+						{
+							"name": "The user already exists in database.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/glady-user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/glady-user",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"glady-user"
+							]
+						},
+						"description": "This method is used to update existing glady user."
+					},
+					"response": [
+						{
+							"name": "The user is created.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/glady-user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}"
+						},
+						{
+							"name": "The user doesn't exists in database.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/glady-user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "The username already exists in database.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"companyId\": \"<long>\",\n  \"id\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/glady-user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"glady-user"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "//localhost:8080"
+		}
+	]
+}

@@ -1,0 +1,699 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Glady Challenge",
+    "title": "Glady WeeDooGift REST API",
+    "version": "v1"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "company-controller",
+      "description": "Company Controller"
+    },
+    {
+      "name": "deposit-controller",
+      "description": "Deposit Controller"
+    },
+    {
+      "name": "glady-user-controller",
+      "description": "Glady User Controller"
+    }
+  ],
+  "paths": {
+    "/company": {
+      "get": {
+        "tags": [
+          "company-controller"
+        ],
+        "summary": "Get all companies",
+        "description": "This method retrieves the list of all companies.",
+        "operationId": "getAllCompaniesUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "includes-deleted",
+            "in": "query",
+            "description": "includes-deleted",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of companies",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Company"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "company-controller"
+        ],
+        "summary": "Create company",
+        "description": "This method is used to create a new company.",
+        "operationId": "createUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "companyDTO",
+            "description": "companyDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CompanyDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CompanyDTO"
+            }
+          },
+          "201": {
+            "description": "The company is created in the database",
+            "schema": {
+              "$ref": "#/definitions/CompanyDTO"
+            }
+          },
+          "400": {
+            "description": "Error occurred on creation of company"
+          },
+          "409": {
+            "description": "The company already exists in database"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "company-controller"
+        ],
+        "summary": "Update company",
+        "description": "This method is used to update an existing company.",
+        "operationId": "updateUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "companyDTO",
+            "description": "companyDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CompanyDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The company is updated in the database",
+            "schema": {
+              "$ref": "#/definitions/CompanyDTO"
+            }
+          },
+          "400": {
+            "description": "Error occurred on update of company"
+          },
+          "404": {
+            "description": "The company doesn't exists in database"
+          },
+          "409": {
+            "description": "The new company name already exists in database"
+          }
+        }
+      }
+    },
+    "/company/{id}": {
+      "get": {
+        "tags": [
+          "company-controller"
+        ],
+        "summary": "Get company by id",
+        "description": "This method retrieves one company by id",
+        "operationId": "getCompanyByIdUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "includes-deleted",
+            "in": "query",
+            "description": "includes-deleted",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The company exists in the database",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "404": {
+            "description": "The company doesn't exists in database"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "company-controller"
+        ],
+        "summary": "Soft delete company",
+        "description": "This method is used to soft delete an existing company.",
+        "operationId": "softDeleteUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The company is deleted"
+          },
+          "404": {
+            "description": "The company doesn't exists in database"
+          }
+        }
+      }
+    },
+    "/deposit": {
+      "post": {
+        "tags": [
+          "deposit-controller"
+        ],
+        "summary": "Make deposit",
+        "description": "This method is used distribute vouchers to users.",
+        "operationId": "makeDepositUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "depositDTO",
+            "description": "depositDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DepositDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deposit is created and vouchers are distributed",
+            "schema": {
+              "$ref": "#/definitions/DepositDTO"
+            }
+          },
+          "400": {
+            "description": "The company balance is insufficient."
+          }
+        }
+      }
+    },
+    "/glady-user": {
+      "get": {
+        "tags": [
+          "glady-user-controller"
+        ],
+        "summary": "getAll",
+        "operationId": "getAllUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page",
+            "required": false,
+            "type": "integer",
+            "default": 0,
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer",
+            "default": 10,
+            "format": "int32"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "sortOrder",
+            "required": false,
+            "type": "string",
+            "default": "asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page«GladyUserDTO»"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "glady-user-controller"
+        ],
+        "summary": "Create User",
+        "description": "This method is used to create new glady user.",
+        "operationId": "createUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "gladyUserDTO",
+            "description": "gladyUserDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GladyUserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GladyUserDTO"
+            }
+          },
+          "201": {
+            "description": "The user is created.",
+            "schema": {
+              "$ref": "#/definitions/GladyUserDTO"
+            }
+          },
+          "409": {
+            "description": "The user already exists in database."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "glady-user-controller"
+        ],
+        "summary": "Update User",
+        "description": "This method is used to update existing glady user.",
+        "operationId": "updateUsingPUT_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "gladyUserDTO",
+            "description": "gladyUserDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GladyUserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user is created.",
+            "schema": {
+              "$ref": "#/definitions/GladyUserDTO"
+            }
+          },
+          "404": {
+            "description": "The user doesn't exists in database."
+          },
+          "409": {
+            "description": "The username already exists in database."
+          }
+        }
+      }
+    },
+    "/glady-user/{id}": {
+      "get": {
+        "tags": [
+          "glady-user-controller"
+        ],
+        "summary": "Get User",
+        "description": "This method retrieve user's information",
+        "operationId": "getByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The information is retrieved.",
+            "schema": {
+              "$ref": "#/definitions/GladyUserDTO"
+            }
+          },
+          "404": {
+            "description": "The user doesn't exists in database."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "glady-user-controller"
+        ],
+        "summary": "delete",
+        "operationId": "deleteUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/glady-user/{id}/info": {
+      "get": {
+        "tags": [
+          "glady-user-controller"
+        ],
+        "summary": "Get User Info",
+        "description": "This method retrieve information about user's balances.",
+        "operationId": "getGladyUserInfoUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The information is retrieved.",
+            "schema": {
+              "$ref": "#/definitions/GladyUserDTO"
+            }
+          },
+          "404": {
+            "description": "The user doesn't exists in database."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Company": {
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string"
+        },
+        "deletedOn": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "giftBalance": {
+          "type": "number",
+          "format": "double"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mealBalance": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "title": "Company"
+    },
+    "CompanyDTO": {
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string"
+        },
+        "giftBalance": {
+          "type": "number",
+          "format": "double"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mealBalance": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "title": "CompanyDTO"
+    },
+    "DepositDTO": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "minimum": 0,
+          "exclusiveMinimum": false
+        },
+        "companyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "depositType": {
+          "type": "string"
+        },
+        "gladyUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DepositDTO"
+    },
+    "GladyUserDTO": {
+      "type": "object",
+      "properties": {
+        "companyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "GladyUserDTO"
+    },
+    "GladyUserInfoDTO": {
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string"
+        },
+        "giftBalance": {
+          "type": "number",
+          "format": "double"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mealBalance": {
+          "type": "number",
+          "format": "double"
+        },
+        "totalBalance": {
+          "type": "number",
+          "format": "double"
+        },
+        "totalExpiredVouchersCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "valideGiftVouchersCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "valideMealVouchersCount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GladyUserInfoDTO"
+    },
+    "Pageable": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "paged": {
+          "type": "boolean"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "unpaged": {
+          "type": "boolean"
+        }
+      },
+      "title": "Pageable"
+    },
+    "Page«GladyUserDTO»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GladyUserDTO"
+          }
+        },
+        "empty": {
+          "type": "boolean"
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageable": {
+          "$ref": "#/definitions/Pageable"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "Page«GladyUserDTO»"
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        },
+        "sorted": {
+          "type": "boolean"
+        },
+        "unsorted": {
+          "type": "boolean"
+        }
+      },
+      "title": "Sort"
+    }
+  }
+}
