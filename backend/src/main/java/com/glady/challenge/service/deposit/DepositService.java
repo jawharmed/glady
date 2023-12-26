@@ -20,6 +20,7 @@ import com.glady.challenge.web.mapper.DepositMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.time.Instant;
 import java.time.Month;
@@ -45,14 +46,17 @@ public class DepositService {
      * @throws GladyException if an error occurred
      */
     public DepositDTO makeDeposit(DepositDTO depositDTO) throws GladyException {
+        Assert.isNull(depositDTO.getId(), "As ID is auto-generated, it must not be valued on creation.");
         Company company = this.companyService.getCompanyById(depositDTO.getCompanyId(), false);
+        VoucherTypeEnum voucherTypeEnum = VoucherTypeEnum.valueOfType(depositDTO.getDepositType());
+        Assert.notNull(voucherTypeEnum, "Voucher Type must be either 'Gift' or 'Meal'");
 
         // Check if company's balance allows this deposit
         if(!this.checkCompanyBalance(company, depositDTO.getAmount(), depositDTO.getDepositType())){
             throw new GladyException(String.format(ErrorMessage.COMPANY_BALANCE_INSUFFICIENT, company.getCompanyName()));
         }else{
             // Re-calculate company's balance
-            if(depositDTO.getDepositType().equals(VoucherTypeEnum.GIFT.getType())){
+            if(voucherTypeEnum.equals(VoucherTypeEnum.GIFT)){
                 company.setGiftBalance( company.getGiftBalance() - depositDTO.getAmount() );
             }else{
                 company.setMealBalance(company.getMealBalance() - depositDTO.getAmount() );
@@ -63,7 +67,7 @@ public class DepositService {
         // Check if Glady user has a wallet, otherwise create one for him!
         GladyUser gladyUser = this.gladyUserService.getById(depositDTO.getGladyUserId());
         Wallet wallet = this.walletService.getOrCreate(WalletDTO.builder()
-                            .walletType(depositDTO.getDepositType())
+                            .walletType(voucherTypeEnum.getType())
                             .gladyUserId(gladyUser.getId())
                             .build());
 
@@ -73,9 +77,9 @@ public class DepositService {
         VoucherDTO voucherDTO = VoucherDTO.builder()
                 .amount(depositDTO.getAmount())
                 .createdOn(createdOn)
-                .expiresOn(this.getExpireDate(createdOn,VoucherTypeEnum.valueOfType(depositDTO.getDepositType())))
+                .expiresOn(this.getExpireDate(createdOn, voucherTypeEnum))
                 .receivedFrom(company.getCompanyName())
-                .code(this.generateVoucherCode(VoucherTypeEnum.valueOfType(depositDTO.getDepositType())))
+                .code(this.generateVoucherCode(voucherTypeEnum))
                 .walletId(wallet.getId())
                 .build();
 

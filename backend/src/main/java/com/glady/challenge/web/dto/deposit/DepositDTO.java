@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -15,9 +17,16 @@ import java.io.Serializable;
 public class DepositDTO implements Serializable {
 
     private Long id;
-    @Min(value = 0, message="must be greater than 0")
+
+    @Min(0)
     private double amount;
+
+    @NotEmpty
     private String depositType;
+
+    @NotNull
     private Long companyId;
+
+    @NotNull
     private Long gladyUserId;
 }
