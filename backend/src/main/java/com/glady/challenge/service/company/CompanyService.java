@@ -13,6 +13,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -92,6 +93,7 @@ public class CompanyService {
      * @throws EntityAlreadyExistException If a company with the new name already exists
      */
     public CompanyDTO create(CompanyDTO companyDTO) throws EntityAlreadyExistException {
+        Assert.isNull(companyDTO.getId(), "As ID is auto-generated, it must not be valued on creation.");
         checkIfCompanyExist(companyDTO, null);
         Company company = companyRepository.save(companyMapper.toCompany(companyDTO));
         return companyMapper.toCompanyDTO(company);
@@ -122,7 +124,7 @@ public class CompanyService {
      * @throws EntityNotFoundException  If the company with the specified ID is not found.
      */
     public void softDeletionCompany(Long idCompany) throws EntityNotFoundException {
-       Company existingCompany = this.getCompanyById(idCompany, false);
+        Company existingCompany = this.getCompanyById(idCompany, false);
 
         existingCompany.setDeletedOn(ZonedDateTime.now());
         companyRepository.save(existingCompany);

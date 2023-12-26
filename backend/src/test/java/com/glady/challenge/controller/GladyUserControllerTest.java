@@ -106,7 +106,8 @@ class GladyUserControllerTest {
 
      @Test
      void testUpdate() throws Exception {
-         GladyUserDTO gladyUserDTO = new GladyUserDTO();
+         GladyUserDTO gladyUserDTO = DtoObjectHelper.getGladyUserDTO();
+         gladyUserDTO.setId(1L);
          when(gladyUserService.update(gladyUserDTO)).thenReturn(gladyUserDTO);
 
          mockMvc.perform(MockMvcRequestBuilders.put("/glady-user")

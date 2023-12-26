@@ -87,10 +87,11 @@ class CompanyServiceTest {
 
     @Test
     void testCreate_WhenCompanyNotExist_ShouldReturnCreatedCompanyDTO() throws Exception {
-        CompanyDTO companyDTO = new CompanyDTO(1L, "Apple", 10.0, 20.0);
+        CompanyDTO companyDTO = new CompanyDTO(null, "Apple", 10.0, 20.0);
+        Company created = new Company(1L, "Apple", 10.0, 20.0, null);
 
         doNothing().when(companyService).checkIfCompanyExist(any(), any());
-        when(companyRepository.save(any())).thenAnswer(response -> response.getArgument(0) );
+        when(companyRepository.save(any())).thenReturn(created);
         CompanyDTO result = companyService.create(companyDTO);
 
         assertEquals(1L, result.getId());
@@ -119,7 +120,7 @@ class CompanyServiceTest {
 
     @Test
     void testCreate_WhenCompanyAlreadyExists_ShouldThrowEntityAlreadyExistException() {
-        CompanyDTO existingCompanyDTO = new CompanyDTO(1L, "Apple", 0.0, 0.0);
+        CompanyDTO existingCompanyDTO = new CompanyDTO(null, "Apple", 0.0, 0.0);
         doThrow(new EntityAlreadyExistException(String.format(ErrorMessage.ENTITY_ID_NAME_ALREADY_EXIST, "Company", 2L, existingCompanyDTO.getCompanyName())))
                 .when(companyService).checkIfCompanyExist(any(), any());
 

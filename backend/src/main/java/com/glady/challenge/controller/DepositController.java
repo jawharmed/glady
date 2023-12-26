@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("deposit")
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class DepositController {
             @ApiResponse(code = 400, message = "The company balance is insufficient."),
             @ApiResponse(code = 400, message = "Error occurred while making deposit"),
     })
-    public DepositDTO makeDeposit(@RequestBody DepositDTO depositDTO) throws GladyException {
+    public DepositDTO makeDeposit(@Valid @RequestBody DepositDTO depositDTO) throws GladyException {
         return depositService.makeDeposit(depositDTO);
     }
 }

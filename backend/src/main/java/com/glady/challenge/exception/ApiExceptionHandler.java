@@ -7,17 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @Slf4j
-public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApiExceptionHandler {
+
+
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(Exception ex){
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex){
         ApiError apiError = ApiError.builder()
                 .timestamp(LocalDateTime.now())
                 .message(ex.getMessage())
@@ -28,7 +29,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntityAlreadyExistException.class)
-    public ResponseEntity<Object> handleEntityAlreadyExistException(Exception ex){
+    public ResponseEntity<Object> handleEntityAlreadyExistException(EntityAlreadyExistException ex){
         ApiError apiError = ApiError.builder()
                 .timestamp(LocalDateTime.now())
                 .message(ex.getMessage())
@@ -38,8 +39,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError,apiError.getStatus());
     }
 
-    @ExceptionHandler(GladyException.class)
-    public ResponseEntity<Object> handleGladyException(Exception ex){
+    @ExceptionHandler({GladyException.class})
+    public ResponseEntity<Object> handleGladyException(GladyException ex){
         ApiError apiError = ApiError.builder()
                 .timestamp(LocalDateTime.now())
                 .message(ex.getMessage())
@@ -49,4 +50,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ex.getMessage(), ex);
         return new ResponseEntity<>(apiError,apiError.getStatus());
     }
+
+
+
+
 }
