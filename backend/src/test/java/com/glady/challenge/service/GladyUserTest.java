@@ -28,7 +28,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -114,7 +113,7 @@ class GladyUserTest {
         GladyUserDTO gladyUserDTO = DtoObjectHelper.getGladyUserDTO();
         Company company = ObjectHelper.getCompany();
 
-        when(companyService.getCompanyById(gladyUserDTO.getId(), false)).thenReturn(company);
+        when(companyService.getCompanyById(1L, false)).thenReturn(company);
         when(gladyUserRepository.save(any())).thenAnswer(response -> response.getArgument(0));
 
         GladyUserDTO result = gladyUserService.create(gladyUserDTO);

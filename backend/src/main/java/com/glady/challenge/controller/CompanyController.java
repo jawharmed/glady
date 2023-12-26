@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -58,7 +59,7 @@ public class CompanyController {
             @ApiResponse(code = 409, message = "The company already exists in database"),
             @ApiResponse(code = 400, message = "Error occurred on creation of company"),
     })
-    public ResponseEntity<CompanyDTO> create(@RequestBody CompanyDTO companyDTO){
+    public ResponseEntity<CompanyDTO> create(@Valid @RequestBody CompanyDTO companyDTO){
         CompanyDTO dto = companyService.create(companyDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
@@ -71,7 +72,7 @@ public class CompanyController {
             @ApiResponse(code = 409, message = "The new company name already exists in database"),
             @ApiResponse(code = 400, message = "Error occurred on update of company"),
     })
-    public ResponseEntity<CompanyDTO> update(@RequestBody CompanyDTO companyDTO){
+    public ResponseEntity<CompanyDTO> update(@Valid @RequestBody CompanyDTO companyDTO){
         CompanyDTO dto =  companyService.update(companyDTO);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -82,7 +83,7 @@ public class CompanyController {
             @ApiResponse(code = 200, message = "The company is deleted"),
             @ApiResponse(code = 404, message = "The company doesn't exists in database"),
     })
-    public ResponseEntity<Void> softDelete(@PathVariable Long id){
+    public ResponseEntity<Void> softDelete(@Valid @PathVariable Long id){
         companyService.softDeletionCompany(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

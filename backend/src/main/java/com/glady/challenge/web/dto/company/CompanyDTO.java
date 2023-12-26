@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Data
@@ -14,10 +15,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class CompanyDTO implements Serializable {
 
-    @NonNull
-    private long id;
-    @NonNull
+    private Long id;
+
+    @NotEmpty
     private String companyName;
+
+    @Min(0)
     private double mealBalance;
+
+    @Min(0)
     private double giftBalance;
 }

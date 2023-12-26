@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("glady-user")
 @RequiredArgsConstructor
@@ -64,7 +66,7 @@ public class GladyUserController {
             @ApiResponse(code = 201, message = "The user is created."),
             @ApiResponse(code = 409, message = "The user already exists in database."),
     })
-    public ResponseEntity<GladyUserDTO> create(@RequestBody GladyUserDTO gladyUserDTO){
+    public ResponseEntity<GladyUserDTO> create(@Valid @RequestBody GladyUserDTO gladyUserDTO){
         return new ResponseEntity<>(gladyUserService.create(gladyUserDTO), HttpStatus.CREATED);
     }
 
@@ -75,7 +77,7 @@ public class GladyUserController {
             @ApiResponse(code = 409, message = "The username already exists in database."),
             @ApiResponse(code = 404, message = "The user doesn't exists in database."),
     })
-    public GladyUserDTO update(@RequestBody GladyUserDTO gladyUserDTO){
+    public GladyUserDTO update(@Valid @RequestBody GladyUserDTO gladyUserDTO){
         return gladyUserService.update(gladyUserDTO);
     }
 

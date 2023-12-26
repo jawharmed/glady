@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -88,6 +89,7 @@ public class GladyUserService {
      * @throws EntityAlreadyExistException  If the Glady User with the specified ID already exist
      */
     public GladyUserDTO create(GladyUserDTO gladyUserDTO) throws EntityAlreadyExistException {
+        Assert.isNull(gladyUserDTO.getId(), "As ID is auto-generated, it must not be valued on creation.");
         checkIfGladyUserExist(gladyUserDTO);
         Company company = companyService.getCompanyById(gladyUserDTO.getCompanyId(), false);
         GladyUser gladyUser = gladyUserRepository.save(gladyUserMapper.toGladyUser(gladyUserDTO, company));
@@ -148,9 +150,7 @@ public class GladyUserService {
     public GladyUserInfoDTO getGladyUserInfo(Long id) {
         GladyUser gladyUser = getById(id);
         Map<VoucherTypeEnum, List<Voucher>> vouchersMap = new EnumMap<>(VoucherTypeEnum.class);
-        gladyUser.getWallets().forEach(wallet -> {
-            vouchersMap.put(wallet.getWalletType(), this.voucherService.getVouchersByWallet(wallet.getId()));
-        });
+        gladyUser.getWallets().forEach(wallet -> vouchersMap.put(wallet.getWalletType(), this.voucherService.getVouchersByWallet(wallet.getId())));
 
         List<Voucher> valideGiftVouchers = vouchersMap.get(VoucherTypeEnum.GIFT) == null ?
                 Collections.emptyList() :
@@ -170,9 +170,6 @@ public class GladyUserService {
                 .flatMap(Collection::stream)
                 .filter(voucher -> voucher.getExpiresOn().isBefore(ZonedDateTime.now()))
                 .collect(Collectors.toList());
-
-//        int expiredVouchersCount = vouchersMap.get(VoucherTypeEnum.GIFT).size() - valideGiftVouchers.size()
-//                                   + vouchersMap.get(VoucherTypeEnum.MEAL).size() - valideMealVouchers.size();
 
         double giftBalance = valideGiftVouchers.isEmpty() ? 0 : valideGiftVouchers.stream()
                 .mapToDouble(Voucher::getAmount)
